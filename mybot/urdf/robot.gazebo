@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<robot>
+    <gazebo>
+    <plugin name="novatel_gps_sim" filename="libhector_gazebo_ros_gps.so">
+        <alwaysOn>1</alwaysOn>
+        <updateRate>1.0</updateRate>
+        <bodyName>base_link</bodyName>
+        <topicName>fix</topicName>
+        <velocityTopicName>fix_velocity</velocityTopicName>
+        <drift>0 0 0</drift>
+        <gaussianNoise>0 0 0</gaussianNoise>
+        <velocityDrift>0 0 0</velocityDrift>
+        <velocityGaussianNoise>0 0 0</velocityGaussianNoise>
+    </plugin>
+    </gazebo>
+</robot>

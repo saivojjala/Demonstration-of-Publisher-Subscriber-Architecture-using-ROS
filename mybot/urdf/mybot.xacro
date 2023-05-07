@@ -1,0 +1,371 @@
+<?xml version='1.0'?>
+
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find mybot)/urdf/mybot.gazebo" />
+
+
+<!-- CHASSIS -->
+
+
+<link name="base_link">
+        <visual>
+            <geometry>
+                <!-- <box size="0.15 0.09 0.05"/> -->
+                <cylinder radius="0.08" length="0.025"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0.0 0.0 1"/>
+            </material>
+        </visual>
+
+        <collision>
+            <geometry>
+                <!-- <box size="0.15 0.09 0.05"/> -->
+                <!-- Height, width, depth -->
+                <cylinder radius="0.08" length="0.025"/>
+            </geometry>
+        </collision>
+        
+        <inertial>
+            <mass value="0.8"/> 
+            <!-- 0.4 -->
+            <!-- <inertia ixx="0.0016666" ixy="0" ixz="0" iyy="0.00204" iyz="0.0" izz="0.000706666"/> -->
+            <inertia ixx="0.013216" ixy="0" ixz="0" iyy="0.013216" iyz="0.0" izz="0.00256"/> 
+        </inertial>
+    </link>
+
+<!-- WHEEL LINKS -->
+
+
+  <link name="front_wheel">
+        <visual>
+            <geometry>
+                <sphere radius="0.016"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0.0 0.1 0.0 1"/>
+            </material>
+        </visual>
+        
+        <collision>
+            <geometry>
+                <sphere radius="0.016"/>
+            </geometry>
+        </collision>
+        
+        <inertial>
+            <mass value="0.035"/>
+            <inertia ixx="0.000003584" ixy="0" ixz="0" iyy="0.000003584" iyz="0.0" izz="0.000003584"/>
+        </inertial>
+    </link>
+
+    <link name="back_wheel">
+        <visual>
+            <geometry>
+                <sphere radius="0.016"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0.0 0.1 0.0 1"/>
+            </material>
+        </visual>
+        
+        <collision>
+            <geometry>
+                <sphere radius="0.016"/>
+            </geometry>
+        </collision>
+        
+        <inertial>
+            <mass value="0.035"/>
+            <inertia ixx="0.000003584" ixy="0" ixz="0" iyy="0.000003584" iyz="0.0" izz="0.000003584"/>
+        </inertial>
+    </link>
+
+    <link name="right_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="0.016" length="0.007"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1"/>
+            </material>
+        </visual>
+        
+        <collision>
+            <geometry>
+                <cylinder radius="0.016" length="0.007"/>
+            </geometry>
+        </collision>
+        
+        <inertial>
+            <mass value="0.0032"/>
+            <inertia ixx="0.00000021787" ixy="0" ixz="0" iyy="0.00000021787" iyz="0.0" izz="0.0000004096"/>
+        </inertial>
+    </link>
+    
+    <link name="left_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="0.016" length="0.007"/>
+            </geometry>
+            <material name="black">
+                <color rgba="0.0 0.0 0.0 1"/>
+            </material>
+        </visual>
+
+        <collision>
+            <geometry>
+                <cylinder radius="0.016" length="0.007"/>
+            </geometry>
+        </collision>
+    
+        <inertial>
+            <mass value="0.0032"/>
+            <inertia ixx="0.00000021787" ixy="0" ixz="0" iyy="0.00000021787" iyz="0.0" izz="0.0000004096"/>
+        </inertial>
+    </link>
+
+   <link name="laser_scanner">
+        <visual>
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+        </visual>
+        
+        <collision>
+            <geometry>
+                <box size="0.01 0.01 0.01"/>
+            </geometry>
+        </collision>
+
+        <inertial>
+            <!-- <mass value="0.150"/>
+            <inertia ixx="2.5e-6" ixy="0" ixz="0.0" iyy="2.5e-6" iyz="0.0" izz="2.5e-6"/> -->
+        </inertial>
+    </link>
+    
+<!-- WHEEL JOINTS -->
+
+    <joint name="front_wheel_joint" type="fixed">  <!-- continuous -->
+        <axis xyz="0.0 0.0 1"/>
+        <parent link="base_link"/>
+        <child link="front_wheel"/>
+        <origin xyz="0.05 0.0 -0.01" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <joint name="back_wheel_joint" type="fixed">  <!-- continuous -->
+        <axis xyz="0.0 0.0 1"/>
+        <parent link="base_link"/>
+        <child link="back_wheel"/>
+        <origin xyz="-0.05 0.0 -0.01" rpy="0.0 0.0 0.0"/>
+    </joint>
+
+    <joint name="right_wheel_joint" type="continuous">
+        <axis xyz="0.0 0.0 1"/>
+        <parent link="base_link"/>
+        <child link="right_wheel"/>
+        <origin xyz="0 -0.045 -0.01" rpy="-1.5708 0.0 0.0"/>
+    </joint>
+
+    <joint name="left_wheel_joint" type="continuous">
+        <axis xyz="0.0 0.0 1"/>
+        <parent link="base_link"/>
+        <child link="left_wheel"/>
+        <origin xyz="0  0.045 -0.01" rpy="-1.5708 0.0 0.0"/>
+    </joint>
+
+    <joint name="laser_joint" type="fixed">
+        <axis xyz="0.0 0.0 1.0"/>
+        <origin xyz="-0.06 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <parent link="base_link"/>
+        <child link="laser_scanner"/>
+    </joint>
+
+<!-- ULTRASONIC SENSOR -->
+
+
+  <!-- <link name="us_left">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0"
+               iyy="1e-6" iyz="0"  
+               izz="1e-6" />
+    </inertial>
+  </link>
+
+
+  <link name="us_right">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.01 0.01 0.01"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0"
+               iyy="1e-6" iyz="0"  
+               izz="1e-6" />
+    </inertial>
+  </link>
+    </visual>
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0"
+               iyy="1e-6" iyz="0"  
+               izz="1e-6" />
+    </inertial>
+  </link> -->
+
+
+<!-- ULTRASONIC SENSOR JOINTS -->
+
+
+  <!-- <joint name="us_left_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin rpy="0 0 1.57" xyz="0.0 0.4 0.2" />
+    <parent link="base_link"/>
+    <child link="us_left"/>
+  </joint>
+
+
+  <joint name="us_right_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin rpy="0 0 -1.57" xyz="0.0 -0.4 0.2" />
+    <parent link="base_link"/>
+    <child link="us_right"/>
+  </joint> -->
+
+
+<!-- HOKUYO LASER -->
+
+
+  <!-- <link name="hokuyo">
+    <collision>
+      <origin xyz="0 0 0.125" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0.125" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://mybot/meshes/hokuyo.dae"/>
+        </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0.125" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+      </inertial>
+  </link>
+ -->
+
+<!-- HOKUYO LASER JOINT -->
+
+
+  <!-- <joint name="hokuyo_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz=".5 0 .37" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="hokuyo"/>
+  </joint> -->
+
+<!-- DEPTH CAMERA -->
+
+<!-- 
+  <link name="camera_depth">
+    <collision name="collision_camera_depth">
+      <origin xyz="0 0 0.028575" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.1 0.1" />
+      </geometry>
+    </collision>
+    <visual name="camera_depth_visual">
+      <origin xyz="0 0 0.028575" rpy="0 0 0" />
+      <geometry>
+        <box size="0.1 0.1 0.1" />
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.1" />
+      <origin xyz="0 0 0.0001" rpy="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+               iyy="0.0001" iyz="0.0"
+               izz="0.0001" />
+    </inertial>
+  </link> -->
+
+
+<!-- DEPTH CAMERA JOINT -->
+
+  <!-- <joint name="kinect_joint" type="fixed">
+    <origin xyz="0.5 0 0.25" rpy="0 0 0" />
+    <child link="camera_depth" />
+    <parent link="base_link" />
+  </joint> -->
+
+
+<!-- CAMERA -->
+
+
+  <!-- <link name="camera">
+    <collision>
+      <origin xyz="0.0 0 0.3" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0.0 0 0.3" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1, 0.1, 0.1"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+    <inertial>
+      <mass value="0.1" />
+      <origin xyz="0.0 0 0.3" rpy="0 0 0"/>
+      <box_inertia m="0.1" x="0.1" y="0.1" z="0.1" />
+      <inertia ixx="1e-6" ixy="0" ixz="0"
+               iyy="1e-6" iyz="0" 
+               izz="1e-6" />
+      </inertial>
+  </link> -->
+
+
+<!-- CAMERA JOINT -->
+
+  <!-- <joint name="camera_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz=".5 0 0.55" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="camera"/>
+  </joint> -->
+
+
+</robot>
