@@ -1,5 +1,5 @@
 # Distributed-Systems-Mini-Project
-This repository is a modification of saivojjala/Autonomous-Traversal Repository.
+This repository is a modification of https://github.com/saivojjala/Autonomous-Traversal.
 
 ## Project Report & Demonstration
 [DS Mini Project.pdf](https://github.com/saivojjala/Distributed-Systems-Mini-Project/files/11414010/DS.Mini.Project.pdf)
